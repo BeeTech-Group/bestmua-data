@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, Float, DateTime, Boolean, ForeignKey, create_engine
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 
 Base = declarative_base()
@@ -23,7 +23,7 @@ class Category(Base):
     
     # Relationships
     parent = relationship("Category", remote_side=[id])
-    children = relationship("Category")
+    children = relationship("Category", overlaps="parent")
     products = relationship("Product", back_populates="category")
     
     def __repr__(self):

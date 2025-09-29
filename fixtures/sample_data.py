@@ -171,7 +171,7 @@ SAMPLE_RAW_PRODUCT = {
     'rating': 4.5,
     'review_count': 123,
     'image_url': '/images/maybelline-lipstick-main.jpg',
-    'images': '["\/images\/maybelline-lipstick-main.jpg", "\/images\/maybelline-lipstick-2.jpg"]',
+    'images': '["/images/maybelline-lipstick-main.jpg", "/images/maybelline-lipstick-2.jpg"]',
     'description': 'Son môi lâu trôi với công nghệ SuperStay độc quyền, giữ màu đến 16 giờ.',
     'ingredients': 'Dimethicone, Trimethylsiloxysilicate, Polybutene, Petrolatum...',
     'usage_instructions': 'Thoa đều lên môi từ trong ra ngoài. Chờ khô hoàn toàn trước khi ăn uống.',
