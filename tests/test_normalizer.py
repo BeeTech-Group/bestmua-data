@@ -101,7 +101,7 @@ class TestDataNormalizer(unittest.TestCase):
             (None, ''),
             (123, '123'),
             ('"Smart quotes"', '"Smart quotes"'),
-            (''curly quotes'', "'curly quotes'")
+            ("'curly quotes'", "'curly quotes'")
         ]
         
         for input_text, expected in test_cases:
