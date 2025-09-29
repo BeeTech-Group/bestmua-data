@@ -8,10 +8,12 @@ A comprehensive web scraping tool for extracting product data from [bestmua.vn](
 - **Idempotent Operations**: Safe to run multiple times without creating duplicates
 - **Incremental Crawling**: Update only changed products for efficient data maintenance
 - **Data Normalization**: Cleans and standardizes scraped data with Vietnamese text handling
-- **Database Storage**: SQLAlchemy-based ORM with SQLite backend
+- **Database Storage**: SQLAlchemy-based ORM with SQLite/MySQL backend
+- **MySQL Support**: Production-ready MySQL database integration
 - **SQL Export**: Per-category SQL dumps for easy data sharing and backup
 - **Robust Error Handling**: Graceful handling of network issues and malformed data
 - **CLI Interface**: Easy-to-use command line interface
+- **Automated Deployment**: VPS deployment scripts with systemd timers
 - **Comprehensive Testing**: Unit tests and integration tests with 90%+ coverage
 
 ## Installation
@@ -56,6 +58,29 @@ bestmua-crawler export
 ```
 
 ### 4. View statistics
+
+```bash
+bestmua-crawler stats
+```
+
+## Production Deployment
+
+For production deployment on a VPS with MySQL database and automated crawling, see the [Deployment Guide](DEPLOYMENT.md).
+
+### Quick VPS Deployment
+
+```bash
+# On your VPS (Ubuntu/Debian)
+curl -O https://raw.githubusercontent.com/BeeTech-Group/bestmua-data/main/deploy_setup.sh
+chmod +x deploy_setup.sh
+./deploy_setup.sh
+```
+
+This will:
+- Install all dependencies
+- Configure MySQL database
+- Set up automated daily/weekly crawling
+- Configure logging and monitoring
 
 ```bash
 bestmua-crawler stats
@@ -119,10 +144,10 @@ You can also use the crawler programmatically:
 ```python
 from bestmua_data.crawler import BestmuaCrawler
 
-# Initialize crawler
+# Initialize crawler with MySQL
 crawler = BestmuaCrawler(
     base_url="https://bestmua.vn",
-    database_url="sqlite:///my_data.db",
+    database_url="mysql+pymysql://user:pass@localhost:3306/dbname",
     export_dir="my_exports",
     max_workers=4,
     delay_between_requests=1.0

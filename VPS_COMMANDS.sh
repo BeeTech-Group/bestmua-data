@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# VPS Deployment Commands for bestmua-data
+# Run these commands step by step on the VPS: 194.233.71.21
+
+echo "=== VPS Deployment Guide for bestmua-data ==="
+echo "Server: 194.233.71.21"
+echo "User: root"
+echo "MySQL Database: crawler_mediamart"
+echo ""
+
+echo "Step 1: Connect to VPS"
+echo "ssh root@194.233.71.21"
+echo ""
+
+echo "Step 2: Download and run deployment setup"
+echo "cd /root"
+echo "curl -O https://raw.githubusercontent.com/BeeTech-Group/bestmua-data/main/deploy_setup.sh"
+echo "chmod +x deploy_setup.sh"
+echo "./deploy_setup.sh"
+echo ""
+
+echo "Step 3: Test the installation"
+echo "cd /opt/bestmua-data/bestmua-data"
+echo "source venv/bin/activate"
+echo ""
+echo "# Initialize database"
+echo "python -m bestmua_data.cli --database-url mysql+pymysql://root:889d1879cd75f315@localhost:3306/crawler_mediamart init-db"
+echo ""
+echo "# Test crawl (2 categories, 2 products each)"
+echo "python -m bestmua_data.cli --verbose --database-url mysql+pymysql://root:889d1879cd75f315@localhost:3306/crawler_mediamart crawl --max-categories 2 --max-products 2 --workers 1 --delay 3.0"
+echo ""
+echo "# Check results"
+echo "python -m bestmua_data.cli --database-url mysql+pymysql://root:889d1879cd75f315@localhost:3306/crawler_mediamart stats"
+echo ""
+
+echo "Step 4: Setup automation (after successful test)"
+echo "bash scripts/setup_cronjobs.sh"
+echo ""
+echo "# Check timer status"
+echo "systemctl status bestmua-full-crawl.timer"
+echo "systemctl status bestmua-incremental-crawl.timer"
+echo ""
+
+echo "Step 5: Monitor crawler"
+echo "# Check logs"
+echo "tail -f /opt/bestmua-data/logs/incremental-crawl.log"
+echo ""
+echo "# Health check"
+echo "bash scripts/monitor_crawler.sh"
+echo ""
+
+echo "=== Manual Operations ==="
+echo ""
+echo "# Run full crawl manually"
+echo "systemctl start bestmua-full-crawl.service"
+echo ""
+echo "# Check service logs"
+echo "journalctl -u bestmua-full-crawl.service -f"
+echo ""
+echo "# Database stats"
+echo "python -m bestmua_data.cli --database-url mysql+pymysql://root:889d1879cd75f315@localhost:3306/crawler_mediamart stats"
+echo ""
+
+echo "=== Important Files ==="
+echo "Configuration: /opt/bestmua-data/bestmua-data/.env"
+echo "Logs: /opt/bestmua-data/logs/"
+echo "Exports: /opt/bestmua-data/exports/"
+echo "Scripts: /opt/bestmua-data/bestmua-data/scripts/"
+echo ""
+
+echo "=== Schedule ==="
+echo "Full crawl: Weekly (complete site)"
+echo "Incremental crawl: Daily (updates only)"
+echo "Log rotation: Daily (keeps 30 days)"
+echo ""
+
+echo "Deploy successfully! 🚀"
